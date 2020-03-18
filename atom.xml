@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>蔓草集</title>
+  <icon>https://www.gravatar.com/avatar/1bfc43067fde1da4c1ce9108eea08e6c</icon>
+  <subtitle>路漫漫其修远兮，吾将上下而求索</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://gene2020.github.io/"/>
+  <updated>2020-03-18T10:18:35.043Z</updated>
+  <id>http://gene2020.github.io/</id>
+  
+  <author>
+    <name>Gene Yang</name>
+    <email>gene2020@aliyun.com</email>
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>人类宣言</title>
+    <link href="http://gene2020.github.io/2020/03/18/2020/"/>
+    <id>http://gene2020.github.io/2020/03/18/2020/</id>
+    <published>2020-03-18T07:53:14.188Z</published>
+    <updated>2020-03-18T10:18:35.043Z</updated>
+    
+    <summary type="html">
+    
+      伟大的人类必将胜利…
+    
+    </summary>
+    
+    
+      <category term="随笔" scheme="http://gene2020.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+    
+    
+      <category term="人类" scheme="http://gene2020.github.io/tags/%E4%BA%BA%E7%B1%BB/"/>
+    
+      <category term="病毒" scheme="http://gene2020.github.io/tags/%E7%97%85%E6%AF%92/"/>
+    
+  </entry>
+  
+</feed>
