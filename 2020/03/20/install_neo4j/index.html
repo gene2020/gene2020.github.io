@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="neo4j,centos," />
 
 
 
@@ -81,13 +81,17 @@
 
 
 
-<meta name="description" content="探索者，码农">
-<meta property="og:type" content="website">
-<meta property="og:title" content="蔓草集">
-<meta property="og:url" content="http://gene2020.github.io/tags/%E4%BA%BA%E7%B1%BB/index.html">
+<meta name="description" content="neo4j安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在centos7安装neo4j图形数据库">
+<meta property="og:url" content="http://gene2020.github.io/2020/03/20/install_neo4j/index.html">
 <meta property="og:site_name" content="蔓草集">
-<meta property="og:description" content="探索者，码农">
+<meta property="og:description" content="neo4j安装">
+<meta property="article:published_time" content="2020-03-20T12:59:27.581Z">
+<meta property="article:modified_time" content="2020-03-20T13:19:51.807Z">
 <meta property="article:author" content="Gene Yang">
+<meta property="article:tag" content="neo4j">
+<meta property="article:tag" content="centos">
 <meta name="twitter:card" content="summary">
 
 
@@ -118,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://gene2020.github.io/tags/人类/"/>
+  <link rel="canonical" href="http://gene2020.github.io/2020/03/20/install_neo4j/"/>
 
 
 
 
 
-  <title>标签: 人类 | 蔓草集</title>
+  <title>在centos7安装neo4j图形数据库 | 蔓草集</title>
   
 
 
@@ -143,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -281,54 +285,268 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>人类<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://gene2020.github.io/2020/03/20/install_neo4j/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Gene Yang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="蔓草集">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/03/18/2020/" itemprop="url">
-              
-                <span itemprop="name">人类宣言</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">在centos7安装neo4j图形数据库</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-03-18T15:53:14+08:00"
-              content="2020-03-18" >
-          03-18
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-20T20:59:27+08:00">
+                2020-03-20
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index">
+                    <span itemprop="name">学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  neo4j安装
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    </div>
+      
 
+      
+        <h1 id="文件安装"><a href="#文件安装" class="headerlink" title="#文件安装"></a>#文件安装</h1><pre><code>sudo mkdir /opt/neo4j
+cd /opt/neo4j
+curl -O http://dist.neo4j.org/neo4j-community-3.5.9-unix.tar.gz
+
+tar -axvf neo4j-community-3.5.9-unix.tar.gz</code></pre><p>在安装目录下找到conf目录下的neo4j.conf文件<br>修改相应配置如下：</p>
+<pre><code># 修改第22行load csv时l路径，在前面加个#，可从任意路径读取文件
+#dbms.directories.import=import
+
+# 修改35行和36行，设置JVM初始堆内存和JVM最大堆内存
+# 生产环境给的JVM最大堆内存越大越好，但是要小于机器的物理内存
+dbms.memory.heap.initial_size=5g
+dbms.memory.heap.max_size=10g
+
+# 修改46行，可以认为这个是缓存，如果机器配置高，这个越大越好
+dbms.memory.pagecache.size=10g
+
+# 修改54行，去掉改行的#，可以远程通过ip访问neo4j数据库
+dbms.connectors.default_listen_address=0.0.0.0
+
+# 默认 bolt端口是7687，http端口是7474，https关口是7473，不修改下面3项也可以
+# 修改71行，去掉#，设置http端口为7687，端口可以自定义，只要不和其他端口冲突就行
+#dbms.connector.bolt.listen_address=:7687
+
+# 修改75行，去掉#，设置http端口为7474，端口可以自定义，只要不和其他端口冲突就行
+dbms.connector.http.listen_address=:7474
+
+# 修改79行，去掉#，设置http端口为7473，端口可以自定义，只要不和其他端口冲突就行
+dbms.connector.https.listen_address=:7473
+
+# 修改227行，去掉#，允许从远程url来load csv
+dbms.security.allow_csv_import_from_file_urls=true
+
+# 修改246行，允许使用neo4j-shell，类似于mysql 命令行之类的
+dbms.shell.enabled=true
+
+# 修改235行，去掉#，设置连接neo4j-shell的端口，一般都是localhost或者127.0.0.1，这样安全，其他地址的话，一般使用https就行
+dbms.shell.host=127.0.0.1
+
+# 修改250行，去掉#，设置neo4j-shell端口，端口可以自定义，只要不和其他端口冲突就行
+dbms.shell.port=1337
+
+# 修改254行，设置neo4j可读可写
+dbms.read_only=false</code></pre><h1 id="启动"><a href="#启动" class="headerlink" title="#启动"></a>#启动</h1><p> 进入bin目录执行./neo4j start</p>
+<h1 id="停止"><a href="#停止" class="headerlink" title="#停止"></a>#停止</h1><p>进入bin目录执行./neo4j stop</p>
+<h1 id="查看图数据库状态"><a href="#查看图数据库状态" class="headerlink" title="#查看图数据库状态"></a>#查看图数据库状态</h1><p>进入bin目录执行./neo4j status</p>
+<h1 id="客户端访问"><a href="#客户端访问" class="headerlink" title="#客户端访问"></a>#客户端访问</h1><p>http://服务器ip地址:7474/browser/</p>
+<p>在浏览器访问图数据库所在的机器上的7474端口（第一次访问账号neo4j，密码neo4j，会提示修改初始密码）</p>
+<p>后期也可以在查询界面输入如下语句修改密码：<br>:server change-password</p>
+<h1 id="设置服务开机启动"><a href="#设置服务开机启动" class="headerlink" title="#设置服务开机启动"></a>#设置服务开机启动</h1><pre><code>sudo vim /opt/neo4j/neo4j-community-3.5.9/bin/neo4j
+添加
+JAVA_HOME=/usr/local/java/jdk1.8.0_221
+
+启动脚本
+sudo vim /usr/lib/systemd/system/neo4j.service
+
+
+
+[Unit]
+Description=Neo4j Graph Database
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/neo4j/neo4j-community-3.5.9/bin/neo4j start
+ExecStop=/opt/neo4j/neo4j-community-3.5.9/bin/neo4j stop
+ExecReload=/opt/neo4j/neo4j-community-3.5.9/bin/neo4j restart
+RemainAfterExit=no
+Restart=on-failure
+PIDFile = /opt/neo4j/neo4j-community-3.5.9/run/neo4j.pid
+Environment=&quot;NEO4J_CONF=/opt/neo4j/neo4j-community-3.5.9/conf&quot; &quot;NEO4J_HOME=/opt/neo4j/neo4j-community-3.5.9&quot;&quot;JAVA_HOME=/usr/local/java/jdk1.8.0_144&quot;
+LimitNOFILE=60000
+TimeoutSec=600
+
+[Install]
+WantedBy=multi-user.target</code></pre><p>sudo systemctl enable neo4j</p>
+<h1 id="启动服务"><a href="#启动服务" class="headerlink" title="#启动服务"></a>#启动服务</h1><p>sudo systemctl start neo4j<br> 上述文件内容变动时执行：<br>sudo  systemctl daemon-reload</p>
+<h1 id="清空数据的方法"><a href="#清空数据的方法" class="headerlink" title="#清空数据的方法"></a>#清空数据的方法</h1><h2 id="一、Cypher-语句："><a href="#一、Cypher-语句：" class="headerlink" title="一、Cypher 语句："></a>一、Cypher 语句：</h2><pre><code>match (n) detach delete n</code></pre><h2 id="二、操作"><a href="#二、操作" class="headerlink" title="二、操作"></a>二、操作</h2><p>1、停掉服务；<br>2、找到<NEO4J_HOME>/data/databases/，删除 graph.db 目录<br>3、重启服务。</p>
+<p>对于少量数据，第一种方案是很方便的，但是数据量大的时候很慢，而且容易造成内存溢出，毕竟是先查出来再删除，这个时候就应该用第二种方案了，方便，快速</p>
+<h1 id="安装APOC"><a href="#安装APOC" class="headerlink" title="#安装APOC"></a>#安装APOC</h1><p>1、下载jar包：<a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases" target="_blank" rel="noopener">https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases</a></p>
+<p>2、把jar包放在安装目录的plugins文件夹下</p>
+<p>3、在neo4j.conf文件下加上：</p>
+<pre><code>dbms.security.procedures.unrestricted=apoc.*
+
+#增加页缓存到至少4G，推荐20G:
+
+dbms.memory.pagecache.size=4g
+
+#JVM堆保存留内存从1G起，最大4G:
+
+dbms.memory.heap.initial_size=1g
+
+dbms.memory.heap.max_size=4g
+4、重启Neo4j服务
+
+5、在可视化界面运行：return apoc.version()，如果出现对应的版本号，证明安装成功</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/neo4j/" rel="tag"># neo4j</a>
+          
+            <a href="/tags/centos/" rel="tag"># centos</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/18/2020/" rel="next" title="人类宣言">
+                <i class="fa fa-chevron-left"></i> 人类宣言
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -336,6 +554,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -356,8 +578,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -428,6 +659,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文件安装"><span class="nav-number">1.</span> <span class="nav-text">#文件安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动"><span class="nav-number">2.</span> <span class="nav-text">#启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#停止"><span class="nav-number">3.</span> <span class="nav-text">#停止</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#查看图数据库状态"><span class="nav-number">4.</span> <span class="nav-text">#查看图数据库状态</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#客户端访问"><span class="nav-number">5.</span> <span class="nav-text">#客户端访问</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#设置服务开机启动"><span class="nav-number">6.</span> <span class="nav-text">#设置服务开机启动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动服务"><span class="nav-number">7.</span> <span class="nav-text">#启动服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#清空数据的方法"><span class="nav-number">8.</span> <span class="nav-text">#清空数据的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Cypher-语句："><span class="nav-number">8.1.</span> <span class="nav-text">一、Cypher 语句：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、操作"><span class="nav-number">8.2.</span> <span class="nav-text">二、操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装APOC"><span class="nav-number">9.</span> <span class="nav-text">#安装APOC</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -564,6 +811,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

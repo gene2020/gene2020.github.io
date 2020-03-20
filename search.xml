@@ -1,6 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>在centos7安装neo4j图形数据库</title>
+    <url>/2020/03/20/install_neo4j/</url>
+    <content><![CDATA[<h1 id="文件安装"><a href="#文件安装" class="headerlink" title="#文件安装"></a>#文件安装</h1><pre><code>sudo mkdir /opt/neo4j
+cd /opt/neo4j
+curl -O http://dist.neo4j.org/neo4j-community-3.5.9-unix.tar.gz
+
+tar -axvf neo4j-community-3.5.9-unix.tar.gz</code></pre><p>在安装目录下找到conf目录下的neo4j.conf文件<br>修改相应配置如下：</p>
+<pre><code># 修改第22行load csv时l路径，在前面加个#，可从任意路径读取文件
+#dbms.directories.import=import
+
+# 修改35行和36行，设置JVM初始堆内存和JVM最大堆内存
+# 生产环境给的JVM最大堆内存越大越好，但是要小于机器的物理内存
+dbms.memory.heap.initial_size=5g
+dbms.memory.heap.max_size=10g
+
+# 修改46行，可以认为这个是缓存，如果机器配置高，这个越大越好
+dbms.memory.pagecache.size=10g
+
+# 修改54行，去掉改行的#，可以远程通过ip访问neo4j数据库
+dbms.connectors.default_listen_address=0.0.0.0
+
+# 默认 bolt端口是7687，http端口是7474，https关口是7473，不修改下面3项也可以
+# 修改71行，去掉#，设置http端口为7687，端口可以自定义，只要不和其他端口冲突就行
+#dbms.connector.bolt.listen_address=:7687
+
+# 修改75行，去掉#，设置http端口为7474，端口可以自定义，只要不和其他端口冲突就行
+dbms.connector.http.listen_address=:7474
+
+# 修改79行，去掉#，设置http端口为7473，端口可以自定义，只要不和其他端口冲突就行
+dbms.connector.https.listen_address=:7473
+
+# 修改227行，去掉#，允许从远程url来load csv
+dbms.security.allow_csv_import_from_file_urls=true
+
+# 修改246行，允许使用neo4j-shell，类似于mysql 命令行之类的
+dbms.shell.enabled=true
+
+# 修改235行，去掉#，设置连接neo4j-shell的端口，一般都是localhost或者127.0.0.1，这样安全，其他地址的话，一般使用https就行
+dbms.shell.host=127.0.0.1
+
+# 修改250行，去掉#，设置neo4j-shell端口，端口可以自定义，只要不和其他端口冲突就行
+dbms.shell.port=1337
+
+# 修改254行，设置neo4j可读可写
+dbms.read_only=false</code></pre><h1 id="启动"><a href="#启动" class="headerlink" title="#启动"></a>#启动</h1><p> 进入bin目录执行./neo4j start</p>
+<h1 id="停止"><a href="#停止" class="headerlink" title="#停止"></a>#停止</h1><p>进入bin目录执行./neo4j stop</p>
+<h1 id="查看图数据库状态"><a href="#查看图数据库状态" class="headerlink" title="#查看图数据库状态"></a>#查看图数据库状态</h1><p>进入bin目录执行./neo4j status</p>
+<h1 id="客户端访问"><a href="#客户端访问" class="headerlink" title="#客户端访问"></a>#客户端访问</h1><p>http://服务器ip地址:7474/browser/</p>
+<p>在浏览器访问图数据库所在的机器上的7474端口（第一次访问账号neo4j，密码neo4j，会提示修改初始密码）</p>
+<p>后期也可以在查询界面输入如下语句修改密码：<br>:server change-password</p>
+<h1 id="设置服务开机启动"><a href="#设置服务开机启动" class="headerlink" title="#设置服务开机启动"></a>#设置服务开机启动</h1><pre><code>sudo vim /opt/neo4j/neo4j-community-3.5.9/bin/neo4j
+添加
+JAVA_HOME=/usr/local/java/jdk1.8.0_221
+
+启动脚本
+sudo vim /usr/lib/systemd/system/neo4j.service
+
+
+
+[Unit]
+Description=Neo4j Graph Database
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/opt/neo4j/neo4j-community-3.5.9/bin/neo4j start
+ExecStop=/opt/neo4j/neo4j-community-3.5.9/bin/neo4j stop
+ExecReload=/opt/neo4j/neo4j-community-3.5.9/bin/neo4j restart
+RemainAfterExit=no
+Restart=on-failure
+PIDFile = /opt/neo4j/neo4j-community-3.5.9/run/neo4j.pid
+Environment=&quot;NEO4J_CONF=/opt/neo4j/neo4j-community-3.5.9/conf&quot; &quot;NEO4J_HOME=/opt/neo4j/neo4j-community-3.5.9&quot;&quot;JAVA_HOME=/usr/local/java/jdk1.8.0_144&quot;
+LimitNOFILE=60000
+TimeoutSec=600
+
+[Install]
+WantedBy=multi-user.target</code></pre><p>sudo systemctl enable neo4j</p>
+<h1 id="启动服务"><a href="#启动服务" class="headerlink" title="#启动服务"></a>#启动服务</h1><p>sudo systemctl start neo4j<br> 上述文件内容变动时执行：<br>sudo  systemctl daemon-reload</p>
+<h1 id="清空数据的方法"><a href="#清空数据的方法" class="headerlink" title="#清空数据的方法"></a>#清空数据的方法</h1><h2 id="一、Cypher-语句："><a href="#一、Cypher-语句：" class="headerlink" title="一、Cypher 语句："></a>一、Cypher 语句：</h2><pre><code>match (n) detach delete n</code></pre><h2 id="二、操作"><a href="#二、操作" class="headerlink" title="二、操作"></a>二、操作</h2><p>1、停掉服务；<br>2、找到<NEO4J_HOME>/data/databases/，删除 graph.db 目录<br>3、重启服务。</p>
+<p>对于少量数据，第一种方案是很方便的，但是数据量大的时候很慢，而且容易造成内存溢出，毕竟是先查出来再删除，这个时候就应该用第二种方案了，方便，快速</p>
+<h1 id="安装APOC"><a href="#安装APOC" class="headerlink" title="#安装APOC"></a>#安装APOC</h1><p>1、下载jar包：<a href="https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases" target="_blank" rel="noopener">https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases</a></p>
+<p>2、把jar包放在安装目录的plugins文件夹下</p>
+<p>3、在neo4j.conf文件下加上：</p>
+<pre><code>dbms.security.procedures.unrestricted=apoc.*
+
+#增加页缓存到至少4G，推荐20G:
+
+dbms.memory.pagecache.size=4g
+
+#JVM堆保存留内存从1G起，最大4G:
+
+dbms.memory.heap.initial_size=1g
+
+dbms.memory.heap.max_size=4g
+4、重启Neo4j服务
+
+5、在可视化界面运行：return apoc.version()，如果出现对应的版本号，证明安装成功</code></pre>]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>neo4j</tag>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>人类宣言</title>
     <url>/2020/03/18/2020/</url>
     <content><![CDATA[<h1 id="人类终将战胜新冠病毒！"><a href="#人类终将战胜新冠病毒！" class="headerlink" title="人类终将战胜新冠病毒！"></a>人类终将战胜新冠病毒！</h1><h1 id="人類はついに新冠ウイルスに打ち勝つ！"><a href="#人類はついに新冠ウイルスに打ち勝つ！" class="headerlink" title="人類はついに新冠ウイルスに打ち勝つ！"></a>人類はついに新冠ウイルスに打ち勝つ！</h1><h1 id="We-will-defeat-the-new-coronavirus"><a href="#We-will-defeat-the-new-coronavirus" class="headerlink" title="We will defeat the new coronavirus!"></a>We will defeat the new coronavirus!</h1><h1 id="Sconfiggeremo-il-nuovo-coronavirus"><a href="#Sconfiggeremo-il-nuovo-coronavirus" class="headerlink" title="Sconfiggeremo il nuovo coronavirus!"></a>Sconfiggeremo il nuovo coronavirus!</h1><h1 id="L’humanite-vaincra-le-nouveau-virus"><a href="#L’humanite-vaincra-le-nouveau-virus" class="headerlink" title="L’humanité vaincra le nouveau virus!"></a>L’humanité vaincra le nouveau virus!</h1><h1 id="¡La-humanidad-vencera-a-la-nueva-corona"><a href="#¡La-humanidad-vencera-a-la-nueva-corona" class="headerlink" title="¡La humanidad vencerá a la nueva corona!"></a>¡La humanidad vencerá a la nueva corona!</h1><h1 id="Vamos-derrotar-o-novo-virus-coronariano"><a href="#Vamos-derrotar-o-novo-virus-coronariano" class="headerlink" title="Vamos derrotar o novo vírus coronariano!"></a>Vamos derrotar o novo vírus coronariano!</h1><h1 id="البشر-في-نهاية-المطاف-هزيمة-فيروس-جديد"><a href="#البشر-في-نهاية-المطاف-هزيمة-فيروس-جديد" class="headerlink" title="البشر في نهاية المطاف هزيمة فيروس جديد"></a>البشر في نهاية المطاف هزيمة فيروس جديد</h1><hr>
